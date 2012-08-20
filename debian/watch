@@ -1,0 +1,3 @@
+version=3
+
+opts="uversionmangle=s/-(beta|rc)/~$1/" http://repo.varnish-cache.org/source/varnish-(\d.*)\.tar\.gz

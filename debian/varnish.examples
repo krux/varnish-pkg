@@ -1,0 +1,2 @@
+etc/zope-plone.vcl
+bin/varnishd/default.vcl
