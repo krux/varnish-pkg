@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Compression &mdash; Varnish version 3.0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Varnish version 3.0.3 documentation" href="../index.html" />
+    <link rel="up" title="Using Varnish" href="index.html" />
+    <link rel="next" title="Edge Side Includes" href="esi.html" />
+    <link rel="prev" title="Purging and banning" href="purging.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="esi.html" title="Edge Side Includes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="purging.html" title="Purging and banning"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Varnish version 3.0.3 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Using Varnish</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="compression">
+<span id="tutorial-compression"></span><h1>Compression<a class="headerlink" href="#compression" title="Permalink to this headline">¶</a></h1>
+<p>New in Varnish 3.0 was native support for compression, using gzip
+encoding. <em>Before</em> 3.0, Varnish would never compress objects.</p>
+<p>In Varnish 3.0 compression defaults to &quot;on&quot;, meaning that it tries to
+be smart and do the sensible thing.</p>
+<p>If you don't want Varnish tampering with the encoding you can disable
+compression all together by setting the parameter http_gzip_support to
+<em>false</em>. Please see man <a class="reference internal" href="../reference/varnishd.html#ref-varnishd"><em>varnishd</em></a> for details.</p>
+</div>
+<div class="section" id="default-behaviour">
+<h1>Default behaviour<a class="headerlink" href="#default-behaviour" title="Permalink to this headline">¶</a></h1>
+<p>The default for Varnish is to check if the client supports our
+compression scheme (gzip) and if it does it will override the
+Accept-Encoding header and set it to &quot;gzip&quot;.</p>
+<p>When Varnish then issues a backend request the Accept-Encoding will
+then only consist of &quot;gzip&quot;. If the server responds with gzip'ed
+content it will be stored in memory in its compressed form. If the
+backend sends content in clear text it will be stored like that.</p>
+<p>You can make Varnish compress content before storing it in cache in
+vcl_fetch by setting do_gzip to true, like this:</p>
+<div class="highlight-python"><pre> sub vcl_fetch {
+      if (beresp.http.content-type ~ "text") {
+              set beresp.do_gzip = true;
+      }
+}</pre>
+</div>
+<p>Please make sure that you don't try to compress content that is
+incompressable, like jpgs, gifs and mp3. You'll only waste CPU
+cycles. You can also uncompress objects before storing it in memory by
+setting do_gunzip to <em>true</em> but I have no idea why anybody would want
+to do that.</p>
+<p>Generally, Varnish doesn't use much CPU so it might make more sense to
+have Varnish spend CPU cycles compressing content than doing it in
+your web- or application servers, which are more likely to be
+CPU-bound.</p>
+</div>
+<div class="section" id="gzip-and-esi">
+<h1>GZIP and ESI<a class="headerlink" href="#gzip-and-esi" title="Permalink to this headline">¶</a></h1>
+<p>If you are using Edge Side Includes you'll be happy to note that ESI
+and GZIP work together really well. Varnish will magically decompress
+the content to do the ESI-processing, then recompress it for efficient
+storage and delivery.</p>
+</div>
+<div class="section" id="clients-that-don-t-support-gzip">
+<h1>Clients that don't support gzip<a class="headerlink" href="#clients-that-don-t-support-gzip" title="Permalink to this headline">¶</a></h1>
+<p>If the client does not support gzip the Accept-Encoding header is left
+alone and we'll end up serving whatever we get from the backend
+server. Remember that the Backend might tell Varnish to <em>Vary</em> on the
+Accept-Encoding.</p>
+<p>If the client does not support gzip but we've already got a compressed
+version of the page in memory Varnish will automatically decompress
+the page while delivering it.</p>
+</div>
+<div class="section" id="a-random-outburst">
+<h1>A random outburst<a class="headerlink" href="#a-random-outburst" title="Permalink to this headline">¶</a></h1>
+<p>Poul has written <a class="reference internal" href="../phk/gzip.html#phk-gzip"><em>How GZIP, and GZIP+ESI works in Varnish</em></a> which talks abit more about how the
+implementation works.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Compression</a></li>
+<li><a class="reference internal" href="#default-behaviour">Default behaviour</a></li>
+<li><a class="reference internal" href="#gzip-and-esi">GZIP and ESI</a></li>
+<li><a class="reference internal" href="#clients-that-don-t-support-gzip">Clients that don't support gzip</a></li>
+<li><a class="reference internal" href="#a-random-outburst">A random outburst</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="purging.html"
+                        title="previous chapter">Purging and banning</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="esi.html"
+                        title="next chapter">Edge Side Includes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/compression.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="esi.html" title="Edge Side Includes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="purging.html" title="Purging and banning"
+             >previous</a> |</li>
+        <li><a href="../index.html">Varnish version 3.0.3 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Using Varnish</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Varnish Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
