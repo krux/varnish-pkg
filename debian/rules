@@ -31,6 +31,7 @@ endif
 override_dh_auto_configure:
 	sh $(CURDIR)/autogen.sh
 	dh_auto_configure -- $(LOCAL_CONFIGURE_FLAGS)
+#	$(shell cd lib/libvmod-statsd/ && echo pwd && sh ./autogen.sh && echo pwd)
 
 override_dh_auto_install:
 	dh_auto_install -a
