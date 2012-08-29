@@ -18,6 +18,4 @@ DIST_SUBDIRS = 	\
 	libvcl \
 	libvgz \
 	libvmod_std \
-	libvmod-statsd \
-	libvmod-timers \
 	libjemalloc
