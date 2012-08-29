@@ -583,6 +583,7 @@ AC_CONFIG_FILES([
     lib/libvgz/Makefile
     lib/libvmod_std/Makefile
     lib/libvmod-statsd/Makefile
+    lib/libvmod-statsd/src/Makefile
     lib/libvmod-timers/Makefile
     lib/libjemalloc/Makefile
     man/Makefile
