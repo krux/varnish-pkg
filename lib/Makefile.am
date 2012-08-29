@@ -7,8 +7,6 @@ SUBDIRS = \
 	libvcl \
 	libvgz \
 	libvmod_std \
-	libvmod-statsd \
-	libvmod-timers \
 	@JEMALLOC_SUBDIR@
 
 DIST_SUBDIRS = 	\
@@ -18,6 +16,4 @@ DIST_SUBDIRS = 	\
 	libvcl \
 	libvgz \
 	libvmod_std \
-	libvmod-statsd \
-	libvmod-timers \
 	libjemalloc
