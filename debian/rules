@@ -29,6 +29,7 @@ endif
 
 # Override to add local configure flags
 override_dh_auto_configure:
+	sh $(CURDIR)/autogen.sh
 	dh_auto_configure -- $(LOCAL_CONFIGURE_FLAGS)
 
 override_dh_auto_install:
