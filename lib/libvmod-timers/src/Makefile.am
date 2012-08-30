@@ -11,7 +11,7 @@ libvmod_timers_la_SOURCES = \
 	vmod_timers.c
 
 vcc_if.c vcc_if.h: $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/lib/libvmod-timers/src/vmod_timers.vcc
-	@PYTHON@ $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_timers.vcc
+	@PYTHON@ $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/lib/libvmod-timers/src/vmod_timers.vcc
 
 VMOD_TESTS = tests/*.vtc
 .PHONY: $(VMOD_TESTS)
