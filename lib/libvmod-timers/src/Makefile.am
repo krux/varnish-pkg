@@ -1,6 +1,6 @@
-INCLUDES = -I$(VARNISHSRC)/include -I$(VARNISHSRC)
+INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)
 
-vmoddir = $(VMODDIR)
+vmoddir = $(pkglibdir)/vmods
 vmod_LTLIBRARIES = libvmod_timers.la
 
 libvmod_timers_la_LDFLAGS = -module -export-dynamic -avoid-version
@@ -10,14 +10,14 @@ libvmod_timers_la_SOURCES = \
 	vcc_if.h \
 	vmod_timers.c
 
-vcc_if.c vcc_if.h: $(VARNISHSRC)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_timers.vcc
-	@PYTHON@ $(VARNISHSRC)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_timers.vcc
+vcc_if.c vcc_if.h: $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_timers.vcc
+	@PYTHON@ $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_timers.vcc
 
 VMOD_TESTS = tests/*.vtc
 .PHONY: $(VMOD_TESTS)
 
 tests/*.vtc:
-	$(VARNISHSRC)/bin/varnishtest/varnishtest -Dvarnishd=$(VARNISHSRC)/bin/varnishd/varnishd -Dvmod_topbuild=$(abs_top_builddir) $@
+	$(top_srcdir)/bin/varnishtest/varnishtest -Dvarnishd=$(top_srcdir)/bin/varnishd/varnishd -Dvmod_topbuild=$(abs_top_builddir) $@
 
 check: $(VMOD_TESTS)
 
