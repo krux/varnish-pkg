@@ -1,3 +1,9 @@
+varnish (3.0.3-1~krux2ubuntu1) UNRELEASED; urgency=low
+
+  * Build of 3.0.3-1 upstream, with Krux vmods.
+
+ -- Krux Operations Team <ops@krux.com>  Thu, 30 Aug 2012 16:49:59 +0000
+
 varnish (3.0.3-1) UNRELEASED; urgency=low
 
   * Release build

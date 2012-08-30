@@ -86,9 +86,19 @@ Description: debugging symbols for varnish
 
 Package: libvmod-statsd
 Section: libs
+Maintainer: Krux Operations Team <ops@krux.com>
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libvarnishapi1 (= ${binary:Version})
 Provides: libvmod-statsd
 Description: krux libvmod-statsd varnish module
  The statsd module for varnish.
+
+Package: libvmod-timers
+Section: libs
+Maintainer: Krux Operations Team <ops@krux.com>
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libvarnishapi1 (= ${binary:Version})
+Provides: libvmod-timers
+Description: krux libvmod-timers varnish module
+ The timers statsd module for varnish.
 
