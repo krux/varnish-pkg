@@ -10,7 +10,7 @@ libvmod_statsd_la_SOURCES = \
 	vcc_if.h \
 	vmod_statsd.c
 
-vcc_if.c vcc_if.h: $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_statsd.vcc
+vcc_if.c vcc_if.h: $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/lib/libvmod-statsd/src/vmod_statsd.vcc
 	@PYTHON@ $(top_srcdir)/lib/libvmod_std/vmod.py $(top_srcdir)/src/vmod_statsd.vcc
 
 VMOD_TESTS = tests/*.vtc
