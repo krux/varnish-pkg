@@ -70,8 +70,8 @@ AC_ARG_WITH([rst2html],
 		fi])
 AM_CONDITIONAL(HAVE_RST2HTML,[test "x$RST2HTML" != "xno"])
 
-AM_CONDITIONAL(HAVE_VARNISHSRC, [test -n $VARNISHSRC])
-AM_CONDITIONAL(HAVE_VMODDIR, [test -n $VMODDIR])
+AM_CONDITIONAL(HAVE_VARNISHSRC, [/bin/false])
+AM_CONDITIONAL(HAVE_VMODDIR, [/bin/false])
 
 # Checks for libraries.
 save_LIBS="${LIBS}"
