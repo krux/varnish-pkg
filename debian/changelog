@@ -1,3 +1,9 @@
+varnish (3.0.3-1~krux3ubuntu1) UNRELEASED; urgency=low
+
+  * hacked init script
+
+ -- Krux Operations Team <ops@krux.com>  Fri, 02 Nov 2012 22:19:51 +0000
+
 varnish (3.0.3-1~krux2ubuntu1) UNRELEASED; urgency=low
 
   * Build of 3.0.3-1 upstream, with Krux vmods.
