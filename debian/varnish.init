@@ -89,6 +89,14 @@ status_varnishd() {
     exit $?
 }
 
+pre_restart() {
+    [ -z "$PRE_RESTART" ] || eval $PRE_RESTART
+}
+
+post_restart() {
+    [ -z "$POST_RESTART" ] || eval $POST_RESTART
+}
+
 case "$1" in
     start)
         case "${START:-}" in
@@ -110,8 +118,10 @@ case "$1" in
         status_varnishd
         ;;
     restart|force-reload)
+        pre_restart
         $0 stop
         $0 start
+        post_restart
         ;;
     *)
         log_success_msg "Usage: $0 {start|stop|restart|force-reload}"
