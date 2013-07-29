@@ -1,3 +1,9 @@
+varnish (3.0.3-1~krux4ubuntu1) UNRELEASED; urgency=low
+
+  * adding updated libvmod-statsd
+
+ -- Krux Operations Team <ops@krux.com>  Mon, 29 Jul 2013 19:21:19 +0000
+
 varnish (3.0.3-1~krux3ubuntu1) UNRELEASED; urgency=low
 
   * hacked init script
