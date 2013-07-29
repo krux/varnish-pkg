@@ -12,6 +12,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netdb.h>
+#include <netinet/in.h>
 
 #define BUF_SIZE 500
 
@@ -124,11 +125,14 @@ _connect_to_statsd( struct vmod_priv *priv ) {
     config_t *cfg = priv->priv;
 
     // Grab 2 structs for the connection
-    struct addrinfo *statsd;
-    statsd = malloc(sizeof(struct addrinfo));
-
+    struct addrinfo *statsd; /* will allocated by getaddrinfo */
     struct addrinfo *hints;
     hints = malloc(sizeof(struct addrinfo));
+
+    if (hints == NULL) {
+        fprintf( stderr, "malloc failed for hints addrinfo struct\n"  );
+        return -1;
+    }
 
     // what type of socket is the statsd endpoint?
     hints->ai_family   = AF_INET;
@@ -139,12 +143,12 @@ _connect_to_statsd( struct vmod_priv *priv ) {
     // using getaddrinfo lets us use a hostname, rather than an
     // ip address.
     int err;
-    if( err = getaddrinfo( cfg->host, cfg->port, hints, &statsd ) != 0 ) {
+    if( (err = getaddrinfo( cfg->host, cfg->port, hints, &statsd )) != 0 ) {
         _DEBUG && fprintf( stderr, "getaddrinfo on %s:%s failed: %s\n",
             cfg->host, cfg->port, gai_strerror(err) );
+        freeaddrinfo( hints );
         return -1;
     }
-
 
     // ******************************
     // Store the open connection
@@ -159,6 +163,8 @@ _connect_to_statsd( struct vmod_priv *priv ) {
     if( cfg->socket == -1 ) {
         _DEBUG && fprintf( stderr, "socket creation failed\n" );
         close( cfg->socket );
+        freeaddrinfo( statsd );
+        freeaddrinfo( hints );
         return -1;
     }
 
@@ -166,6 +172,9 @@ _connect_to_statsd( struct vmod_priv *priv ) {
     if( connect( cfg->socket, statsd->ai_addr, statsd->ai_addrlen ) == -1 ) {
         _DEBUG && fprintf( stderr, "socket connection failed\n" );
         close( cfg->socket );
+
+        freeaddrinfo( statsd );
+        freeaddrinfo( hints );
         return -1;
     }
 
@@ -183,7 +192,7 @@ _connect_to_statsd( struct vmod_priv *priv ) {
 int
 _send_to_statsd( struct vmod_priv *priv, const char *key, const char *val ) {
     config_t *cfg = priv->priv;
-   
+
     // If you are using some empty key, bail - this can happen if you use
     // say: statsd.incr( req.http.x-does-not-exist ). Rather than getting
     // and empty string, we get a null pointer.
@@ -204,7 +213,7 @@ _send_to_statsd( struct vmod_priv *priv, const char *key, const char *val ) {
     // Newer versions of statsd allow multiple metrics in a single packet, delimited
     // by newlines. That unfortunately means that if we end our message with a new
     // line, statsd will interpret this as an empty second metric and log a 'bad line'.
-    // This is true in at least version 0.5.0 and to avoid that, we don't send the 
+    // This is true in at least version 0.5.0 and to avoid that, we don't send the
     // newline. Makes debugging using nc -klu 8125 a bit more tricky, but works with
     // modern statsds.
     //strncat( stat, "\n",        1                       );
