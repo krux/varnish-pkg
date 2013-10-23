@@ -2,7 +2,7 @@ varnish (3.0.3-1~krux5ubuntu1) UNRELEASED; urgency=low
 
   * adding updated libvmod-statsd 0.03
 
-   -- Krux Operations Team <ops@krux.com>  Wed, 23 Oct 2013 23:56:23 +0200
+ -- Krux Operations Team <ops@krux.com>  Wed, 23 Oct 2013 23:56:23 +0200
 
 varnish (3.0.3-1~krux4ubuntu1) UNRELEASED; urgency=low
 
