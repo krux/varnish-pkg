@@ -589,6 +589,8 @@ AC_CONFIG_FILES([
     lib/libvmod-statsd/src/Makefile
     lib/libvmod-timers/Makefile
     lib/libvmod-timers/src/Makefile
+    lib/libvmod-throttle/Makefile
+    lib/libvmod-throttle/src/Makefile
     lib/libjemalloc/Makefile
     man/Makefile
     redhat/Makefile

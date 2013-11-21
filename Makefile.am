@@ -2,7 +2,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = include lib bin man etc doc lib/libvmod-statsd lib/libvmod-timers
+SUBDIRS = include lib bin man etc doc lib/libvmod-statsd lib/libvmod-timers lib/libvmod-throttle
 
 SUBDIRS += redhat
 

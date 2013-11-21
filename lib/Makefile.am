@@ -9,6 +9,7 @@ SUBDIRS = \
 	libvmod_std \
 	libvmod-statsd \
 	libvmod-timers \
+	libvmod-throttle \
 	@JEMALLOC_SUBDIR@
 
 DIST_SUBDIRS = 	\

@@ -102,3 +102,11 @@ Provides: libvmod-timers
 Description: krux libvmod-timers varnish module
  The timers statsd module for varnish.
 
+Package: libvmod-throttle
+Section: libs
+Maintainer: Krux Operations Team <ops@krux.com>
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libvarnishapi1 (= ${binary:Version})
+Provides: libvmod-throttle
+Description: krux libvmod-throttle varnish module
+ The throttle module for varnish.
