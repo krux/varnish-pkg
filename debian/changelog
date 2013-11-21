@@ -1,3 +1,9 @@
+varnish (3.0.3-1~krux6ubuntu1) UNRELEASED; urgency=low
+
+  * adding libvmod-throttle @ 7ccddd41946e74a2681ae389ec774977f756c15c
+
+ -- Krux Operations Team <ops@krux.com>  Thu, 21 Nov 2013 00:31:56 +0000
+
 varnish (3.0.3-1~krux5ubuntu1) UNRELEASED; urgency=low
 
   * adding updated libvmod-statsd 0.03
