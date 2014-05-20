@@ -1,0 +1,3 @@
+From Charlie, as per the build instructions here: http://ci.krxd.net/job/varnish/
+
+"The varnish-pkg repo is a clone of upstream varnish, with our internally-developed modules (and debian/ directory for building). To update libvmod-* that we developed, just cd lib/ and remove e.g. libvmod-statsd, git clone it, and remove the resulting libvmod-statsd/.git. Now, 'git diff' should be correct. I'm sure we could use git subtrees or submodules instead, but they confuse me."
