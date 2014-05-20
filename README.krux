@@ -1,3 +1,25 @@
 From Charlie, as per the build instructions here: http://ci.krxd.net/job/varnish/
 
-"The varnish-pkg repo is a clone of upstream varnish, with our internally-developed modules (and debian/ directory for building). To update libvmod-* that we developed, just cd lib/ and remove e.g. libvmod-statsd, git clone it, and remove the resulting libvmod-statsd/.git. Now, 'git diff' should be correct. I'm sure we could use git subtrees or submodules instead, but they confuse me."
+"The varnish-pkg repo is a clone of upstream varnish, with our internally-developed modules
+(and debian/ directory for building).
+
+To update libvmod-* that we developed:
+--------------------------------------
+    * cd lib/
+    * remove libvmod-* that you want to update
+    * git clone the original
+    * remove the libvmod-*/.git directory
+    * cd to the root
+    * git diff to confirm you got the changes you expected
+I'm sure we could use git subtrees or submodules instead, but they confuse me."
+
+To update the varnish package itself:
+-------------------------------------
+    * cd debian/
+    * update the changelog
+        * To get the right dateformat, run this on a Linux machine: date -R
+    * commit the change
+    * push to github, branch 'master' to kick off the automated build in jenkins:
+      http://ci.krxd.net/job/varnish
+
+
